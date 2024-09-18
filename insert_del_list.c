@@ -21,7 +21,7 @@ void insert(node** pointohead,int x,int data)   //在第x个节点插入
         return;
     }
     node *temp2 = *pointohead; //保存头节点地址(不保存head会丢失,插入的节变为第一个)
-    for(int i=0;i<=x-2;i++)
+    for(int i=0;i<x-2;i++)                 //i<x-2是因为要找到第x-1个节点
     {
         temp2 = temp2->next;                //找到第x-1个节点
     }                         
@@ -32,12 +32,20 @@ void insert(node** pointohead,int x,int data)   //在第x个节点插入
 
 void delete(node** pointohead,int x)      //删除第x个节点
 {
-    for(int i=0;i<=x-2;i++)
+    node *temp = *pointohead;
+    if(x==1)
     {
-        *pointohead = (*pointohead)->next;   //找到第x-1个节点
+        *pointohead = temp->next;
+        free(temp);
+        return;
     }
-    node *temp = (*pointohead)->next;        //保存第x个节点
-    (*pointohead)->next = temp->next;        //更换第x-1个节点保存的地址
+    node *temp2 = *pointohead; //保存头节点地址
+    for(int i=0;i<x-2;i++)       //x=2时循坏不执行
+    {
+        temp2 = temp2->next;   //找到第x-1个节点
+    }
+    temp = temp2->next;        //保存第x个节点,temp是第x个节点，temp2是第x-1个节点
+    temp2->next = temp->next;        //更换第x-1个节点保存的地址
     free(temp);
 }
 
@@ -60,12 +68,12 @@ int main()
     insert(&head,1,1);
     Print(head);    //1
     insert(&head,1,2);
-    Print(head);    //1 2
+    Print(head);    //2 1
     insert(&head,1,3);
-    Print(head);    //1 2 3
+    Print(head);    //3 2 1
     insert(&head,2,4);
-    Print(head);    //1 4 2 3
-    delete(&head,1);
-    Print(head);    //4 2 3
+    Print(head);    //3 4 2 1
+    delete(&head,2);
+    Print(head);    //3 4 1
     return 0;
 }
