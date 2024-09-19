@@ -39,14 +39,13 @@ void delete(node** pointohead,int x)      //删除第x个节点
         free(temp);
         return;
     }
-    node *temp2 = *pointohead; //保存头节点地址
     for(int i=0;i<x-2;i++)       //x=2时循坏不执行
     {
-        temp2 = temp2->next;   //找到第x-1个节点
+        temp = temp->next;   //找到第x-1个节点
     }
-    temp = temp2->next;        //保存第x个节点,temp是第x个节点，temp2是第x-1个节点
-    temp2->next = temp->next;        //更换第x-1个节点保存的地址
-    free(temp);
+    node* temp2 = temp->next;        //保存第x个节点,temp是第x个节点，temp2是第x-1个节点
+    temp->next = temp2->next;        //更换第x-1个节点保存的地址
+    free(temp2);
 }
 
 
@@ -74,6 +73,6 @@ int main()
     insert(&head,2,4);
     Print(head);    //3 4 2 1
     delete(&head,2);
-    Print(head);    //3 4 1
+    Print(head);    //3 2 1
     return 0;
 }
